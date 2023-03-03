@@ -9,7 +9,8 @@ include_once("sql.php");
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <title>Daten-tabel</title>
 </head>
@@ -56,11 +57,11 @@ include_once("sql.php");
           </div>
           <div class="m-3">
             <label class="form-label">Email</label>
-            <input type="text" class="form-control" name="email" placeholder="Please enter your Email">
+            <input type="email" class="form-control" name="email" placeholder="Please enter your Email">
           </div>
           <div class="m-3">
             <label  class="form-label">Mobile</label>
-            <input type="text" class="form-control" name="mobile" placeholder="Please enter your Mobile">
+            <input type="number" class="form-control" name="mobile" placeholder="Please enter your Mobile">
           </div>
           <div class="m-3">
           <input type="submit" value="Submit" name= "submit">
@@ -72,6 +73,31 @@ include_once("sql.php");
         
 
 <?php 
+
+$id = $name = $email =$mobile = "";
+function formTest($data){
+  $data = htmlentities($data);
+  $data = trim($data);
+  $data = stripcslashes($data);
+ }
+
+ if(isset($_POST['submit'])){
+  $id = formTest($_POST['id']);
+  $name = formTest($_POST['name']);
+  $email = filter_var(formTest($_POST['email']), FILTER_VALIDATE_EMAIL);
+  $mobile = formTest($_POST['mobile']);
+  $stmt = mysqli_prepare($conn, "INSERT INTO studenten (Sd,Fname,Email,Mobile) VALUES (?, ? ,? ,?)");
+  mysqli_stmt_bind_param($stmt, "ssss", $id, $name, $email, $mobile);
+
+  if(mysqli_stmt_execute($stmt)){
+    echo " <script>alert('<h5>New record has been added successfully !</h5>')</script>";
+  }else{
+    echo " <h5><script>alert('Error !')</script></h5>";
+  }
+ }
+
+////////////////////////////
+/*
 if(isset($_POST['submit']))
 {    
      $id = $_POST['id'];
@@ -88,7 +114,7 @@ if(isset($_POST['submit']))
      mysqli_close($conn);
 }
 
-
+*/
 
 
 ?>
