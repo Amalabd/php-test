@@ -1,38 +1,7 @@
   <?php
 
   include_once("sql.php");
-$user = $pass = "";
-function checkLog($data){
-  $data= htmlspecialchars($data);
-  $data= trim($data);
-  $data=stripcslashes($data);
-  return $data;
-}
 
-
-  if(isset($_POST['btn']))
-  {
-    $user = htmlentities(checkLog($_POST['fname']));
-    $pass = checkLog($_POST['lname']);
-    $stmt= mysqli_prepare($conn, "SELECT * FROM login WHERE name= ? and password= ? ");
-    mysqli_stmt_bind_param($stmt, "ss", $user, $password);
-    
-    $result=mysqli_stmt_execute($stmt);
-    if(mysqli_num_rows($result) == 1)
-    {
-    session_start();
-    $_SESSION ['USER']= $user;
-    $_SESSION ['PASSWORD']= $pass;
-    header("Location: page2.php");
-    }else {
-      $message = '<div class="alert alert-secondary alert-dismissible fade show  col-3 mx-auto" role="alert">
-    <strong> OOPS !!!</strong> You dont have Permission !
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>';
-      echo $message;
-    }
-
-  }
 
   ?>
 
@@ -98,5 +67,43 @@ function checkLog($data){
 </section>
 </main>
 
+
+
+<?php
+
+$user = $pass = "";
+function checkLog($data){
+  $data= htmlspecialchars($data);
+  $data= trim($data);
+  $data=stripcslashes($data);
+  return $data;
+}
+
+
+  if(isset($_POST['btn']))
+  {
+    $user = htmlentities(checkLog($_POST['fname']));
+    $pass = checkLog($_POST['lname']);
+    $stmt= mysqli_prepare($conn, "SELECT * FROM login WHERE name= ? and password= ? ");
+    mysqli_stmt_bind_param($stmt, "ss", $user, $password);
+    mysqli_stmt_execute($stmt);
+    $result=mysqli_stmt_get_result($stmt);
+    if(mysqli_num_rows($result) > 0)
+    {
+    session_start();
+    $_SESSION ['USER']= $user;
+    $_SESSION ['PASSWORD']= $pass;
+    header("Location: page2.php");
+    }else {
+      $message = '<div class="alert alert-secondary alert-dismissible fade show  col-3 mx-auto" role="alert">
+    <strong> OOPS !!!</strong> You dont have Permission !
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>';
+      echo $message;
+    }
+
+  }
+
+?>
   </body>
   </html>
