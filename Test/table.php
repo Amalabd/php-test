@@ -79,6 +79,7 @@ function formTest($data){
   $data = htmlentities($data);
   $data = trim($data);
   $data = stripcslashes($data);
+  return $data;
  }
 
  if(isset($_POST['submit'])){
@@ -90,9 +91,11 @@ function formTest($data){
   mysqli_stmt_bind_param($stmt, "ssss", $id, $name, $email, $mobile);
 
   if(mysqli_stmt_execute($stmt)){
-    echo " <script>alert('<h5>New record has been added successfully !</h5>')</script>";
+    $message = "<div class= 'alert alert-success' role = 'alert'><h5>New record has been added successfully !</h5></div>";
+    echo "<script>alert($message);</script>";
   }else{
-    echo " <h5><script>alert('Error !')</script></h5>";
+    $message = "<div class= 'alert alert-danger ' role = 'alert'><h5>Error !</h5></div>";
+    echo "<script>alert('$message');</script>";
   }
  }
 
