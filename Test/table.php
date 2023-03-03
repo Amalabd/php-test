@@ -11,17 +11,23 @@ include_once("sql.php");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
     rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
     <title>Daten-tabel</title>
 </head>
 <body>
     
     <style>
-        body{background:rgba(255, 0, 0, 0.3);};
+        body{background-image: url('bccc.jpg');
+          background-size: cover;
+        background-attachment: fixed;
+        background-repeat: no-repeat;};
+          
         text{align:center;};
     </style>
         
-    <nav class="navbar navbar-expand-lg navbar-light .bg-secondary bg-secondary">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
               <a class="navbar-brand" href="#">Amal</a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,7 +50,7 @@ include_once("sql.php");
           <div class="page-header m-5">
                         <h2>Contact Form</h2>
                     </div>
-          <div class="container m-5">
+          <div class="container m-5  border border-secondary rounded-3 shadow ">
           
           <div class="m-3">
           <form action="" method="POST">
@@ -67,6 +73,7 @@ include_once("sql.php");
           <input type="submit" value="Submit" name= "submit">
            </div>
            </form> 
+        </div>
         </div>
 
 
@@ -91,11 +98,17 @@ function formTest($data){
   mysqli_stmt_bind_param($stmt, "ssss", $id, $name, $email, $mobile);
 
   if(mysqli_stmt_execute($stmt)){
-    $message = "<div class= 'alert alert-success' role='alert'><h5>New record has been added successfully !</h5></div>";
-    echo "<script>alert('$message');</script>";
+    $message = '<div class="alert alert-success alert-dismissible fade show  col-3 mx-auto" role="alert">
+    <strong>Congratulation</strong> New record has been added successfully !
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>';
+    echo $message;
   }else{
-    $message = "<div class= 'alert alert-danger ' role='alert'><h5>Error !</h5></div>";
-    echo "<script>alert('$message');</script>";
+    $message = '<div class="alert alert-danger alert-dismissible fade show col-3 mx-auto" role="alert">
+    <strong>OOPS!! </strong> Error !
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>';
+    echo $message;
   }
  }
 

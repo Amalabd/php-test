@@ -23,11 +23,14 @@ include_once("sql.php");
 <body>
     
     <style>
-        body{background:rgba(255, 0, 0, 0.3);};
+        body{background-image: url('bccc.jpg');
+          background-size: cover;
+        background-attachment: fixed;
+        background-repeat: no-repeat;};
         text{align:center;};
     </style>
         
-    <nav class="navbar navbar-expand-lg navbar-light .bg-secondary bg-secondary">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
               <a class="navbar-brand" href="#">Amal</a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
