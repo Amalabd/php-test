@@ -48,10 +48,11 @@ include_once("sql.php");
             </div>
           </nav>
 
-          <header class="page-header m-5">
+          <header class="page-header text-center m-5">
                         <h2>Contact Form</h2>
         </header>
-          <main class="container m-lg-5 col-lg-5 col-sm-6 border border-secondary rounded-3 shadow " style="background-color: rgba(255,255,255, 0.3);">
+          <main class="container col-lg-4 col-sm-8 mt-5 p-5 border border-secondary rounded-3 shadow" 
+      style="background-color: rgba(255,255,255, 0.3);">
           
           <section class="m-3">
           <form action="" method="POST">

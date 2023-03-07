@@ -29,7 +29,8 @@ include_once("sql.php");
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
               <a class="navbar-brand" href="#">Amal</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" 
+              aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
               <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -47,10 +48,11 @@ include_once("sql.php");
           </nav>
 
 
-          <header class="page-header m-5">
+          <header class="page-header text-center m-5">
                         <h2>Process</h2>
         </header>
-          <main  class="container m-5 col-lg-4 col-sm-8  border border-secondary rounded-3 shadow" style=" background-color: rgba(255,255,255, 0.3);">
+          <main  class="container col-lg-4 col-sm-8 mt-5 p-5 border border-secondary rounded-3 shadow" 
+      style="background-color: rgba(255,255,255, 0.3);">
           
          
           <form action="" method="POST" class="p-3">
@@ -60,68 +62,39 @@ include_once("sql.php");
           <div class="justify-content-end d-flex">
           <input type="submit" value="GET" name= "get" class="btn btn-secondary fw-bold  ">
         </div>
-        <p> <?php    ?> </p>
+        <p>
+ <?php  
+function secure($data){
+   $data=htmlentities($data);
+   $data=trim($data);
+   $data= stripcslashes($data);
+          return $data;
+  }
 
-        </main>
-
-        <?php
-
-
+if(isset($_POST['get']))
+  {  
+$pn= secure($_POST['pn']);  
 $stmt = mysqli_prepare($conn, "SELECT Fname FROM studenten WHERE Sd= ?");
 mysqli_stmt_bind_param($stmt, "s", $pn);
 mysqli_stmt_execute($stmt);
+mysqli_stmt_bind_result($stmt,$fnam);
+mysqli_stmt_fetch($stmt);
 
   $error= " OOPS !! ... NO Data was found !!";
-  $res=mysqli_stmt_get_result($stmt);
-  if(isset($_POST['get']))
-  {  
-  if (mysqli_num_rows($res) > 0) {
-    
-  $row = mysqli_fetch_assoc($res);
-  echo "<h5> The data you requist is : </h5>". $row;
-  }else
-    {
-            echo '<script>alert(" '.htmlspecialchars($error).' ");</script>';
-            
-    }
+
   
+  if (empty($fnam)) {
+    echo '<script>alert(" '.htmlspecialchars($error).' ");</script>';
+  }else{
+      echo "<h5> The requested data is : </h5>"."<span class='text-success fs-4'> $fnam </span>";      
+    }
+  mysqli_stmt_close($stmt);
   
     }
-     
-        /*  
-          if(empty ($_POST['pn'])){$_POST['pn'] = 0;};
-          $pn=$_POST['pn'];
-
-        //======writing a query and select data from tables=======//
-        $sql = "SELECT Fname FROM studenten WHERE Sd= $pn ";
-  
-        if(isset($_POST['get']))
-        {  
-
-            //======make a query and get the reslt======= I always got an error so I used (if statment)//
-           if( $result = $conn->query($sql)){
-            //======fetch the data from the result in an associative array=======//
-                //$resf= mysqli_fetch_assoc($result);
-
-       
-                while($row = $result->fetch_assoc()) {
-                    echo  $row["Fname"];
-                }
-              
-            }else{ echo" ";}
-             
-       }
-       
-*/
-
-
-    // === to close the connection=====
-    //mysqli_close($conn);
-
-?>
-
-
-
+        
+ ?>
+  </p>
+ </main>
 
 </body>
 </html>
