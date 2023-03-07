@@ -9,7 +9,10 @@ include_once("sql.php");
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
     <title>Get-Daten</title>
 </head>
@@ -44,28 +47,48 @@ include_once("sql.php");
           </nav>
 
 
-          <div class="page-header m-5">
+          <header class="page-header m-5">
                         <h2>Process</h2>
-                    </div>
-          <div class="container m-5">
+        </header>
+          <main  class="container m-5 col-lg-4 col-sm-8  border border-secondary rounded-3 shadow" style=" background-color: rgba(255,255,255, 0.3);">
           
-          <div class="m-3">
-          <form action="" method="POST">
+         
+          <form action="" method="POST" class="p-3">
             <label  class="form-label">Process-no</label>
-            <input type="number" class="form-control" name="pn" placeholder="Please enter the Process number">
-          </div>
+            <input type="number" class="form-control" name="pn" placeholder="Please enter the Process number"> 
+            <br>
+          <div class="justify-content-end d-flex">
+          <input type="submit" value="GET" name= "get" class="btn btn-secondary fw-bold  ">
+        </div>
+        <p> <?php    ?> </p>
 
-          <div class="m-3">
-            <p></p>
-            <div class="m-3">
-          <input type="submit" value="GET" name= "get">
-          </div>
-
-
+        </main>
 
         <?php
-          
-          echo "Name : ";
+
+
+$stmt = mysqli_prepare($conn, "SELECT Fname FROM studenten WHERE Sd= ?");
+mysqli_stmt_bind_param($stmt, "s", $pn);
+mysqli_stmt_execute($stmt);
+
+  $error= " OOPS !! ... NO Data was found !!";
+  $res=mysqli_stmt_get_result($stmt);
+  if(isset($_POST['get']))
+  {  
+  if (mysqli_num_rows($res) > 0) {
+    
+  $row = mysqli_fetch_assoc($res);
+  echo "<h5> The data you requist is : </h5>". $row;
+  }else
+    {
+            echo '<script>alert(" '.htmlspecialchars($error).' ");</script>';
+            
+    }
+  
+  
+    }
+     
+        /*  
           if(empty ($_POST['pn'])){$_POST['pn'] = 0;};
           $pn=$_POST['pn'];
 
@@ -89,7 +112,7 @@ include_once("sql.php");
              
        }
        
-
+*/
 
 
     // === to close the connection=====

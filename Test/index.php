@@ -1,6 +1,7 @@
   <?php
 
   include_once("sql.php");
+  
 
 
   ?>
@@ -22,10 +23,19 @@
 
   <body>
   <style>
-      body{background-image: url('bccc.jpg');
+      body::before {
+        content: "";
+        position:fixed;
+        top:0;
+        left:0;
+        width:100%;
+        height: 100%;
+        z-index: -1;
+        background-image: url('bccc.jpg');
             background-size: cover;
           background-attachment: fixed;
-          background-repeat: no-repeat;};
+          background-repeat: no-repeat;
+        background-position:center;}
      
   </style>
       
@@ -50,13 +60,13 @@
           </div>
         </nav>
         
-<main class=" container  text-center mt-5 text-secondary" style="margin: auto; ">
+<main class=" container  text-center mt-5 " style="margin: auto; ">
 
 <header class="page-header m-5  ">
-  <h1 class="text-decoration-underline">LOG - IN</h1>
+  <h1 class="text-decoration-underline ">LOG - IN</h1>
 </header>
       
-<section class="row-sm m-5 col-4 mx-auto border border-secondary rounded-3 shadow ">
+<section class="row-sm m-5 col-4 mx-auto border border-secondary rounded-3 shadow" style=" background-color: rgba(255,255,255, 0.3);">
   <form action="" method="POST" class=" m-5">
     <label class= "fs-4">Name:</label><br>
     <input type="text"  name="fname" placeholder= "Schreib hier"><br><br>
@@ -72,6 +82,10 @@
 <?php
 
 $user = $pass = "";
+$message = '<div class="alert alert-secondary alert-dismissible fade show  col-3 mx-auto" role="alert">
+    <strong> OOPS !!!</strong> You dont have Permission !
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>';
 function checkLog($data){
   $data= htmlspecialchars($data);
   $data= trim($data);
@@ -82,27 +96,27 @@ function checkLog($data){
 
   if(isset($_POST['btn']))
   {
-    $user = htmlentities(checkLog($_POST['fname']));
+    $user = checkLog($_POST['fname']);
     $pass = checkLog($_POST['lname']);
     $stmt= mysqli_prepare($conn, "SELECT * FROM login WHERE name= ? and password= ? ");
-    mysqli_stmt_bind_param($stmt, "ss", $user, $password);
+    mysqli_stmt_bind_param($stmt, "ss", $user, $pass);
     mysqli_stmt_execute($stmt);
     $result=mysqli_stmt_get_result($stmt);
+
     if(mysqli_num_rows($result) > 0)
     {
     session_start();
     $_SESSION ['USER']= $user;
     $_SESSION ['PASSWORD']= $pass;
     header("Location: page2.php");
+    exit();
     }else {
-      $message = '<div class="alert alert-secondary alert-dismissible fade show  col-3 mx-auto" role="alert">
-    <strong> OOPS !!!</strong> You dont have Permission !
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>';
+      
       echo $message;
     }
 
   }
+
 
 ?>
   </body>

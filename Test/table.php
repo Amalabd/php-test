@@ -30,7 +30,8 @@ include_once("sql.php");
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
               <a class="navbar-brand" href="#">Amal</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" 
+              aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
               <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -47,34 +48,34 @@ include_once("sql.php");
             </div>
           </nav>
 
-          <div class="page-header m-5">
+          <header class="page-header m-5">
                         <h2>Contact Form</h2>
-                    </div>
-          <div class="container m-5  border border-secondary rounded-3 shadow ">
+        </header>
+          <main class="container m-lg-5 col-lg-5 col-sm-6 border border-secondary rounded-3 shadow " style="background-color: rgba(255,255,255, 0.3);">
           
-          <div class="m-3">
+          <section class="m-3">
           <form action="" method="POST">
             <label class="form-label">ID-no</label>
             <input type="number" class="form-control" name="id" placeholder="Please enter your ID">
-          </div>
-          <div class="m-3">
+         <br>
             <label  class="form-label">Name</label>
             <input type="text" class="form-control" name="name" placeholder="Please enter your name">
-          </div>
-          <div class="m-3">
+          
+        <br>
             <label class="form-label">Email</label>
             <input type="email" class="form-control" name="email" placeholder="Please enter your Email">
-          </div>
-          <div class="m-3">
+         <br>
+          
             <label  class="form-label">Mobile</label>
             <input type="number" class="form-control" name="mobile" placeholder="Please enter your Mobile">
-          </div>
-          <div class="m-3">
-          <input type="submit" value="Submit" name= "submit">
-           </div>
+            <br><br>
+         
+         <div class=" justify-content-end d-flex">
+          <input type="submit" value="Submit" name= "submit" class="btn btn-secondary ">
+        </div>
            </form> 
-        </div>
-        </div>
+        </section>
+        </main>
 
 
         
