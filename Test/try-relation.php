@@ -1,6 +1,15 @@
 <?php
+ini_set('session.cookie_httponly', true);
 session_start();
+// to set session cookies to http only
+
 include_once("sql.php");
+// to generate a random token for each user session
+if(!isset($_SESSION['tan'])){
+  $_SESSION['tan']= bin2hex(random_bytes(32));
+}
+
+
 
 //print_r($_POST);
 
@@ -62,10 +71,10 @@ include_once("sql.php");
       style="background-color: rgba(255,255,255, 0.3);">
       
           <form action="" method="POST" class="border-bottom border-secondary pb-3">
+          <input type="text" name="tan" value="<?php echo $_SESSION['tan']; ?>">
           <label  class=""><h5>Search with ID</h5></label><br>
           <input type="number" class="" name="pn" placeholder="Request with ID number">
           <br><br>
-          <input type="hidden" name="tan" value="<?php echo $_SESSION['tan']; ?>">
           <div class="justify-content-end d-flex" >
           <input type="submit" value="GET" name= "get" class="btn btn-secondary m-1">
           <input type="submit" value="GET2" name= "get2" class="btn btn-secondary m-1 ">
@@ -78,7 +87,8 @@ function secure($data){
   $data = stripcslashes($data);
   return $data;
 }
- if(isset($_POST['get'])){  
+ if(isset($_POST['get']) && isset($_SESSION['tan'])){  
+  if(isset($_POST['tan']) && $_SESSION['tan']=== $_POST['tan']){
       $pn= secure($_POST['pn']);
       $stmt=mysqli_prepare($conn, "SELECT Nam ,Email FROM library_mitarbeiter WHERE id =?");
           mysqli_stmt_bind_param($stmt, "s", $pn);
@@ -92,7 +102,7 @@ echo "<a href= 'delete1.php?pid=".$nam.$mail."' class='btn btn-outline-danger' r
 echo "<a href= 'edit.php?ppd=".$nam.$mail."' class='btn btn-outline-success' role='button' aria-pressed='true'>Edit</a>";
            
                
-             }else{ echo"NO DATA ";}
+}}else{ echo"NO DATA ";}
               
         }
 
