@@ -80,8 +80,8 @@ function secure($data){
   $data = stripcslashes($data);
   return $data;
 }
- if(isset($_POST['get']) && isset($_SESSION['tan'])){  
-  //if(isset($_POST['tan']) && $_SESSION['tan']=== $_POST['tan']){
+ if(isset($_POST['get']) && isset($_SESSION['tan']) && $_SESSION['tan'] === $_POST['tan']){  
+
       $pn= secure($_POST['pn']);
       $stmt=mysqli_prepare($conn, "SELECT Nam ,Email FROM library_mitarbeiter WHERE id =?");
           mysqli_stmt_bind_param($stmt, "s", $pn);
@@ -89,10 +89,10 @@ function secure($data){
           mysqli_stmt_bind_result($stmt,$nam,$mail);
           
           if( mysqli_stmt_fetch($stmt) == true){
-echo  "<br> Name: ". $nam. "<br>" . "Email : " .$mail. "<br>". "<br>";
+echo  "<br> Name: ". htmlspecialchars($nam). "<br>" . "Email : " .htmlspecialchars($mail). "<br>". "<br>";
 
-echo "<a href= 'delete1.php?pid=".$nam.$mail."' class='btn btn-outline-danger' role='button' onclick= 'return confirm(\"really delete?\");' aria-pressed='true'>Delete</a>"." ";
-echo "<a href= 'edit.php?ppd=".$nam.$mail."' class='btn btn-outline-success' role='button' aria-pressed='true'>Edit</a>";
+echo "<a href= 'delete1.php?pid=".urlencode($nam.$mail)."' class='btn btn-outline-danger' role='button' onclick= 'return confirm(\"really delete?\");' aria-pressed='true'>Delete</a>"." ";
+echo "<a href= 'edit.php?ppd=".urlencode($nam.$mail)."' class='btn btn-outline-success' role='button' aria-pressed='true'>Edit</a>";
            
                
 }else{ echo"NO DATA ";}
