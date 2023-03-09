@@ -70,7 +70,7 @@ if(!isset($_SESSION['tan'])){
           <form action="" method="POST" class="border-bottom border-secondary pb-3">
           <input type="hidden" name="tan" value="<?php echo $_SESSION['tan']; ?>">
           <label  class=""><h5>Search with ID</h5></label><br>
-          <input type="number" class="" name="pn" placeholder="Request with ID number" value="<?php echo htmlspecialchars($_POST['pn']); ?>">
+          <input type="number" class="" name="pn" placeholder="Request with ID number" >
           <br><br>
           <div class="justify-content-end d-flex" >
           <input type="submit" value="GET" name= "get" class="btn btn-secondary m-1">
@@ -80,6 +80,7 @@ if(!isset($_SESSION['tan'])){
 <?php 
 function secure($data){
   $data= htmlentities($data);
+  $data= htmlspecialchars($data);
   $data = trim($data);
   $data = stripcslashes($data);
   return $data;
@@ -91,7 +92,7 @@ function secure($data){
           mysqli_stmt_bind_param($stmt, "s", $pn);
           mysqli_stmt_execute($stmt);
           mysqli_stmt_bind_result($stmt,$nam,$mail);
-     
+     echo $_POST['tan'] . "<br>" . $_SESSION['tan'];
           if( mysqli_stmt_fetch($stmt) == true){
 echo  "<br> Name: ". htmlspecialchars($nam). "<br>" . "Email : " .htmlspecialchars($mail). "<br>". "<br>";
 
@@ -197,7 +198,7 @@ echo "<a href= 'edit.php?ppd=".urlencode($nam.$mail)."' class='btn btn-outline-s
        }
        
        
-       
+       session_unset();
        mysqli_close($conn);
  
    
