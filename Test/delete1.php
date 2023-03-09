@@ -2,31 +2,22 @@
 
 include_once("sql.php");
 
-$id=$_GET["pid"];
+$id = $_GET["pid"];
 
-$del= " DELETE FROM library_mitarbeiter WHERE id=$id";
-$query= mysqli_query($conn,$del);
+// prepare the SQL statement with a placeholder for the parameter
+$del = "DELETE FROM library_mitarbeiter WHERE id = ?";
+$stmt = mysqli_prepare($conn, $del);
 
+// bind the parameter to the statement
+mysqli_stmt_bind_param($stmt, "i", $id);
 
-if($query){
-    
+// execute the statement
+$query = mysqli_stmt_execute($stmt);
+
+if ($query) {
     header("Location: try-relation.php");
-    
-    echo "<h3>Deleted Successfuly!</h3>";
+    echo "<h3>Deleted Successfully!</h3>";
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-?>
+mysqli_stmt_close($stmt);
+mysqli_close($conn);
