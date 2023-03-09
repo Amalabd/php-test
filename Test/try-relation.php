@@ -10,9 +10,8 @@ session_start();
 include_once("sql.php");
 // to generate a random token for each user session
 if(!isset($_SESSION['tan'])|| isset($_SESSION['tan']) ){
-  
-  $_SESSION['tan']= bin2hex(random_bytes(32));
- $_SESSION['tan'] =$_POST['tan'];
+
+  $_SESSION['tan']= $_POST['tan']= bin2hex(random_bytes(32));
 
 }
 
@@ -99,13 +98,15 @@ function secure($data){
 
           if( mysqli_stmt_fetch($stmt) == true){
 echo  "<br> Name: ". htmlspecialchars($nam). "<br>" . "Email : " .htmlspecialchars($mail). "<br>". "<br>";
-
-echo "<a href= 'delete1.php?pid=".urlencode($nam.$mail)."' class='btn btn-outline-danger' role='button' onclick= 'return confirm(\"really delete?\");' aria-pressed='true'>Delete</a>"." ";
-echo "<a href= 'edit.php?ppd=".urlencode($nam.$mail)."' class='btn btn-outline-success' role='button' aria-pressed='true'>Edit</a>";
-           
+$id= urlencode($nam. "-" . $mail);
+echo "<a href= 'delete1.php?id=".$id."' class='btn btn-outline-danger' role='button' onclick= 'return confirm(\"really delete?\");' aria-pressed='true'>Delete</a>"." ";
+echo "<a href= 'edit.php?id=".$id."' class='btn btn-outline-success' role='button' aria-pressed='true'>Edit</a>";
+//mysqli_stmt_close($stmt);         
                
 }else{ echo"NO DATA ";}
        }
+
+       
 //====================================================================================
 //=================(((((((((((((GET 2))))))))))))=====================================
 //===================================================================================
@@ -123,9 +124,10 @@ if(isset($_POST['get2']) && hash_equals($_SESSION['tan'],$_POST['tan']))
   "<br> Email: ". htmlspecialchars($mail)."<br> Phone: ". htmlspecialchars($phone). "<br>";
               
 echo "<a href= 'delete1.php?pid=".urlencode($title.$nam.$mail.$phone)."' class='btn btn-outline-danger' role='button' onclick= 'return confirm(\"really delete?\"); aria-pressed='true'>Delete</a>";
-
+//mysqli_stmt_close($stmt2);
 }else{ echo"Nothing Found ";}
  }
+
     ?>
     </p>
     </form>
