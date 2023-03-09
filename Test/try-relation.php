@@ -106,32 +106,26 @@ echo "<a href= 'edit.php?ppd=".urlencode($nam.$mail)."' class='btn btn-outline-s
                
 }else{ echo"NO DATA ";}
        }
-
-
 //====================================================================================
 //=================(((((((((((((GET 2))))))))))))=====================================
 //===================================================================================
-   
-      if(isset($_POST['get2']) && hash_equals($_SESSION['tan'],$_POST['tan']))
-      {  $pn= secure($_POST['pn']);
-        $stmt2= mysqli_prepare($conn, "SELECT Title, Nam, Email, Phone FROM books a,library_mitarbeiter b WHERE a.mid=?" );
+
+if(isset($_POST['get2']) && hash_equals($_SESSION['tan'],$_POST['tan']))
+  {  $pn= secure($_POST['pn']);
+     $stmt2= mysqli_prepare($conn, "SELECT Title, Nam, Email, Phone FROM books a,library_mitarbeiter b WHERE a.mid=?" );
           mysqli_stmt_bind_param($stmt2, "s", $pn);
           mysqli_stmt_execute($stmt2);
           mysqli_stmt_bind_result($stmt2,$title,$nam,$mail,$phone);
 
         if( mysqli_stmt_fetch($stmt2) == true){
 
-              echo "<br> Book Name : " . htmlspecialchars($title). "<br> Mitarbeiter: ". htmlspecialchars($nam). 
-              "<br> Email: ". htmlspecialchars($mail)."<br> Phone: ". htmlspecialchars($phone). "<br>";
+ echo "<br> Book Name : " . htmlspecialchars($title). "<br> Mitarbeiter: ". htmlspecialchars($nam). 
+  "<br> Email: ". htmlspecialchars($mail)."<br> Phone: ". htmlspecialchars($phone). "<br>";
               
-              echo "<a href= 'delete1.php?pid=".urlencode($nam.$mail)."' class='btn btn-outline-danger' role='button' aria-pressed='true'>Delete</a>";
-        
-         }else{ echo"Nothing Found ";}
+echo "<a href= 'delete1.php?pid=".urlencode($title.$nam.$mail.$phone)."' class='btn btn-outline-danger' role='button' onclick= 'return confirm(\"really delete?\"); aria-pressed='true'>Delete</a>";
 
-
-        // $_SESSION['tan']++;
-
-    }
+}else{ echo"Nothing Found ";}
+ }
     ?>
     </p>
     </form>
