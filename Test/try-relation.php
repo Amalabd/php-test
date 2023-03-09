@@ -1,10 +1,14 @@
 <?php
+// to enable error reporting  to catch any errors or warnings
+error_reporting(E_ALL);
+ini_set('display_errors',1);
 ini_set('session.cookie_httponly', true);
+
 session_start();
 
 include_once("sql.php");
 // to generate a random token for each user session
-if(isset($_SESSION['tan'])){
+if(!isset($_SESSION['tan'])){
   $_SESSION['tan']= bin2hex(random_bytes(32));
 }
 
@@ -66,7 +70,7 @@ if(isset($_SESSION['tan'])){
           <form action="" method="POST" class="border-bottom border-secondary pb-3">
           <input type="hidden" name="tan" value="<?php echo $_SESSION['tan']; ?>">
           <label  class=""><h5>Search with ID</h5></label><br>
-          <input type="number" class="" name="pn" placeholder="Request with ID number">
+          <input type="number" class="" name="pn" placeholder="Request with ID number" value="<?php echo htmlspecialchars($_POST['pn']); ?>">
           <br><br>
           <div class="justify-content-end d-flex" >
           <input type="submit" value="GET" name= "get" class="btn btn-secondary m-1">
@@ -80,7 +84,7 @@ function secure($data){
   $data = stripcslashes($data);
   return $data;
 }
- if(isset($_POST['get']) && isset($_SESSION['tan']) && $_SESSION['tan'] === $_POST['tan']){  
+ if(isset($_POST['get']) && isset($_SESSION['tan']) && hash_equals($_SESSION['tan'], $_POST['tan'])){  
 
       $pn= secure($_POST['pn']);
       $stmt=mysqli_prepare($conn, "SELECT Nam ,Email FROM library_mitarbeiter WHERE id =?");
