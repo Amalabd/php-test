@@ -3,19 +3,17 @@
 error_reporting(E_ALL);
 ini_set('display_errors',1);
 ini_set('session.cookie_httponly', true);
-session_save_path('c:/wamp64/tmp');
+
 session_start();
 
 
 include_once("sql.php");
 // to generate a random token for each user session
-if(!isset($_SESSION['tan'])){
+if(!isset($_SESSION['tan'])|| isset($_SESSION['tan']) ){
   
   $_SESSION['tan']= bin2hex(random_bytes(32));
+ $_SESSION['tan'] =$_POST['tan'];
 
-  echo $_SESSION['tan'] ."<br>". $_POST['tan'] ;
-}else{
-  echo "NOT SET";
 }
 
 
@@ -91,14 +89,14 @@ function secure($data){
   $data = stripcslashes($data);
   return $data;
 }
- if(isset($_POST['get']) && isset($_SESSION['tan']) && hash_equals((string)$_SESSION['tan'],(string)$_POST['tan'])){  
+ if(isset($_POST['get']) && isset($_SESSION['tan']) && hash_equals($_SESSION['tan'],$_POST['tan'])){  
 
       $pn= secure($_POST['pn']);
       $stmt=mysqli_prepare($conn, "SELECT Nam ,Email FROM library_mitarbeiter WHERE id =?");
           mysqli_stmt_bind_param($stmt, "s", $pn);
           mysqli_stmt_execute($stmt);
           mysqli_stmt_bind_result($stmt,$nam,$mail);
- echo $_POST['tan']. "<br>". $_SESSION['tan'];
+
           if( mysqli_stmt_fetch($stmt) == true){
 echo  "<br> Name: ". htmlspecialchars($nam). "<br>" . "Email : " .htmlspecialchars($mail). "<br>". "<br>";
 
