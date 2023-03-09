@@ -80,14 +80,14 @@ function secure($data){
   $data = stripcslashes($data);
   return $data;
 }
- if(isset($_POST['get']) && isset($_SESSION['tan']) && $_SESSION['tan'] === $_POST['tan']){  
+ if(isset($_POST['get']) && isset($_SESSION['tan']) ){  
 
       $pn= secure($_POST['pn']);
       $stmt=mysqli_prepare($conn, "SELECT Nam ,Email FROM library_mitarbeiter WHERE id =?");
           mysqli_stmt_bind_param($stmt, "s", $pn);
           mysqli_stmt_execute($stmt);
           mysqli_stmt_bind_result($stmt,$nam,$mail);
-          
+          echo $_POST['tan'] . "<br>" . $_SESSION['tan'];
           if( mysqli_stmt_fetch($stmt) == true){
 echo  "<br> Name: ". htmlspecialchars($nam). "<br>" . "Email : " .htmlspecialchars($mail). "<br>". "<br>";
 
