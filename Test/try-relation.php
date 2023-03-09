@@ -105,56 +105,38 @@ echo "<a href= 'edit.php?ppd=".urlencode($nam.$mail)."' class='btn btn-outline-s
            
                
 }else{ echo"NO DATA ";}
-              
-        }
-
-?>
-
-        </p>
-        </form>
-
-  <?php
-
-
-
+       }
 
 
 //====================================================================================
 //=================(((((((((((((GET 2))))))))))))=====================================
 //===================================================================================
-       
-      $sql1 = "SELECT * FROM books a,library_mitarbeiter b WHERE a.mid=b.id";
+   
+      if(isset($_POST['get2']) && hash_equals($_SESSION['tan'],$_POST['tan']))
+      {  $pn= secure($_POST['pn']);
+        $stmt2= mysqli_prepare($conn, "SELECT Title, Nam, Email, Phone FROM books a,library_mitarbeiter b WHERE a.mid=?" );
+          mysqli_stmt_bind_param($stmt2, "s", $pn);
+          mysqli_stmt_execute($stmt2);
+          mysqli_stmt_bind_result($stmt2,$title,$nam,$mail,$phone);
 
-         
-      if(isset($_POST['get2']) && isset($_SESSION['tan']))
-      {  
+        if( mysqli_stmt_fetch($stmt2) == true){
 
-      if( $result = $conn->query($sql1)){
-
-             while($row = $result->fetch_assoc()) {
-             
-
-              echo "<form action='' method='POST'>";
-
-              echo "<br> book name : " . $row["Title"]. "<br> Mitarbeiter: ". $row["Nam"]. "<br> Email: ". $row["Email"]."<br> Phone: ". $row["Phone"]. "<br>";
+              echo "<br> Book Name : " . htmlspecialchars($title). "<br> Mitarbeiter: ". htmlspecialchars($nam). 
+              "<br> Email: ". htmlspecialchars($mail)."<br> Phone: ". htmlspecialchars($phone). "<br>";
               
-              echo "<a href= 'delete1.php?pid=".$row["id"]."' class='btn btn-outline-danger' role='button' aria-pressed='true'>Delete</a>";
-              
-              echo"</form>";
-
-              
-
-         }//else{ echo" ";}
+              echo "<a href= 'delete1.php?pid=".urlencode($nam.$mail)."' class='btn btn-outline-danger' role='button' aria-pressed='true'>Delete</a>";
+        
+         }else{ echo"Nothing Found ";}
 
 
         // $_SESSION['tan']++;
 
     }
-
-  }
-
-
- ?>
+    ?>
+    </p>
+    </form>
+    
+     
 <!-----------------------------Adding Form---------------------->
 </form >
         <h5 class="m-3">Add a new record</h5>
