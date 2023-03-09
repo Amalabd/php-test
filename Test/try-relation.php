@@ -113,8 +113,8 @@ echo "<a href= 'edit.php?id=".$id."' class='btn btn-outline-success' role='butto
 
 if(isset($_POST['get2']) && hash_equals($_SESSION['tan'],$_POST['tan']))
   {  $pn= secure($_POST['pn']);
-     $stmt2= mysqli_prepare($conn, "SELECT Title, Nam, Email, Phone FROM books a,library_mitarbeiter b WHERE a.mid=?" );
-          mysqli_stmt_bind_param($stmt2, "s", $pn);
+     $stmt2= mysqli_prepare($conn, "SELECT Title, Nam, Email, Phone FROM books a,library_mitarbeiter b WHERE b.id=? AND a.mid=?" );
+          mysqli_stmt_bind_param($stmt2, "ss", $pn, $pn);
           mysqli_stmt_execute($stmt2);
           mysqli_stmt_bind_result($stmt2,$title,$nam,$mail,$phone);
 
