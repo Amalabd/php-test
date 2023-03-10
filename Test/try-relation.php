@@ -149,10 +149,7 @@ echo "<a href= 'delete1.php?pid=".urlencode($title.$nam.$mail.$phone)."' class='
             <div class="justify-content-end d-flex">
           <input type="submit" value="Submit" name= "mneu" class="btn btn-secondary  ">
            </div>
-           </form> 
-          
-         
-</main>
+           
      
  <?php
 //=================================================================================
@@ -184,10 +181,13 @@ echo "<a href= 'delete1.php?pid=".urlencode($title.$nam.$mail.$phone)."' class='
    
 
 ?>
-
+</form> 
+          
+         
+          </main>
 <script>
     if ( window.history.replaceState ) {
-  //      window.history.replaceState( null, null, window.location.href );
+      window.history.replaceState( null, null, window.location.href );
     }
 </script>
 
