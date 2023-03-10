@@ -134,7 +134,7 @@ echo "<a href= 'delete1.php?pid=".urlencode($title.$nam.$mail.$phone)."' class='
     
      
 <!-----------------------------Adding Form---------------------->
-</form >
+
         <h5 class="m-3">Add a new record</h5>
 
           <form action="" method="POST">
@@ -165,8 +165,8 @@ echo "<a href= 'delete1.php?pid=".urlencode($title.$nam.$mail.$phone)."' class='
             $name = secure($_POST['mitarbeitername']);
             $email = filter_var(secure($_POST['mitarbeitermail']), FILTER_VALIDATE_EMAIL);
             $mobile = secure($_POST['mitarbeiterfon']);
-            $stmt3=mysqli_prepare($conn, "INSERT INTO library_mitarbeiter (?,?,?,?)");
-            mysqli_stmt_bind_param($stmt3, "issi",$id,$nam,$mail,$phone);
+            $stmt3=mysqli_prepare($conn, "INSERT INTO library_mitarbeiter (id, Nam, Email , Phone)  VALUES(?,?,?,?)");
+            mysqli_stmt_bind_param($stmt3, "issi",$id,$name,$email,$mobile);
             $sql = "INSERT INTO library_mitarbeiter (id,Nam,Email,Phone)
             VALUES ('$id','$name','$email','$mobile')";
             if (mysqli_stmt_execute($stmt3)) {
