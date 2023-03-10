@@ -104,6 +104,7 @@ echo "<a href= 'edit.php?id=".$id."' class='btn btn-outline-success' role='butto
 //mysqli_stmt_close($stmt);         
                
 }else{ echo"NO DATA ";}
+mysqli_stmt_close($stmt);
        }
 
        
@@ -126,6 +127,7 @@ if(isset($_POST['get2']) && hash_equals($_SESSION['tan'],$_POST['tan']))
 echo "<a href= 'delete1.php?pid=".urlencode($title.$nam.$mail.$phone)."' class='btn btn-outline-danger' role='button' onclick= 'return confirm(\"really delete?\"); aria-pressed='true'>Delete</a>";
 //mysqli_stmt_close($stmt2);
 }else{ echo"Nothing Found ";}
+mysqli_stmt_close($stmt2);
  }
 
     ?>
@@ -138,6 +140,7 @@ echo "<a href= 'delete1.php?pid=".urlencode($title.$nam.$mail.$phone)."' class='
         <h5 class="m-3">Add a new record</h5>
 
           <form action="" method="POST">
+          <input type="hidden" name="tan" value="<?php echo $_SESSION['tan']; ?>">
           <label>ID:</label>
             <input type="number" class=" form-control m-3" name="mitarbeiterid" >
             <label>Name:</label>
@@ -171,11 +174,11 @@ echo "<a href= 'delete1.php?pid=".urlencode($title.$nam.$mail.$phone)."' class='
             } else {
                echo "Error ";
             }
-            
+            mysqli_stmt_close($stmt3);
        }
        
        
-       session_unset();
+       
        mysqli_close($conn);
  
    
