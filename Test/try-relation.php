@@ -153,25 +153,23 @@ echo "<a href= 'delete1.php?pid=".urlencode($title.$nam.$mail.$phone)."' class='
           
          
 </main>
-
-          
-         
-
-        
+     
  <?php
 //=================================================================================
 //=================(((((((((((((ADDING))))))))))))=================================
 //=================================================================================
        
-       if(isset($_POST['mneu']))
+       if(isset($_POST['mneu'])&& isset($_SESSION['tan']) && hash_equals($_SESSION['tan'],$_POST['tan']))
        {    
-            $id = $_POST['mitarbeiterid'];
-            $name = $_POST['mitarbeitername'];
-            $email = $_POST['mitarbeitermail'];
-            $mobile = $_POST['mitarbeiterfon'];
+            $id = secure($_POST['mitarbeiterid']);
+            $name = secure($_POST['mitarbeitername']);
+            $email = filter_var(secure($_POST['mitarbeitermail']), FILTER_VALIDATE_EMAIL);
+            $mobile = secure($_POST['mitarbeiterfon']);
+            $stmt3=mysqli_prepare($conn, "INSERT INTO library_mitarbeiter (?,?,?,?)");
+            mysqli_stmt_bind_param($stmt3, "issi",$id,$nam,$mail,$phone);
             $sql = "INSERT INTO library_mitarbeiter (id,Nam,Email,Phone)
             VALUES ('$id','$name','$email','$mobile')";
-            if (mysqli_query($conn, $sql)) {
+            if (mysqli_stmt_execute($stmt3)) {
                echo "<h5 class='m-5 text-success'>New record has been added successfully !</h5>";
             } else {
                echo "Error ";
