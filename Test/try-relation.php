@@ -10,9 +10,8 @@ session_start();
 include_once("sql.php");
 // to generate a random token for each user session
 if(!isset($_SESSION['tan'])|| isset($_SESSION['tan']) ){
-  
-  $_SESSION['tan']= bin2hex(random_bytes(32));
- $_SESSION['tan'] =$_POST['tan'];
+
+  $_SESSION['tan']= $_POST['tan']= bin2hex(random_bytes(32));
 
 }
 
@@ -100,49 +99,49 @@ function secure($data){
 
           if( mysqli_stmt_fetch($stmt) == true){
 echo  "<br> Name: ". htmlspecialchars($nam). "<br>" . "Email : " .htmlspecialchars($mail). "<br>". "<br>";
-
-echo "<a href= 'delete1.php?pid=".urlencode($nam.$mail)."' class='btn btn-outline-danger' role='button' onclick= 'return confirm(\"really delete?\");' aria-pressed='true'>Delete</a>"." ";
-echo "<a href= 'edit.php?ppd=".urlencode($nam.$mail)."' class='btn btn-outline-success' role='button' aria-pressed='true'>Edit</a>";
-           
+$id= urlencode($nam. "-" . $mail);
+echo "<a href= 'delete1.php?id=".$id."' class='btn btn-outline-danger' role='button' onclick= 'return confirm(\"really delete?\");' aria-pressed='true'>Delete</a>"." ";
+echo "<a href= 'edit.php?id=".$id."' class='btn btn-outline-success' role='button' aria-pressed='true'>Edit</a>";
+//mysqli_stmt_close($stmt);         
                
 }else{ echo"NO DATA ";}
+mysqli_stmt_close($stmt);
        }
 
-
+       
 //====================================================================================
 //=================(((((((((((((GET 2))))))))))))=====================================
 //===================================================================================
-   
-      if(isset($_POST['get2']) && hash_equals($_SESSION['tan'],$_POST['tan']))
-      {  $pn= secure($_POST['pn']);
-        $stmt2= mysqli_prepare($conn, "SELECT Title, Nam, Email, Phone FROM books a,library_mitarbeiter b WHERE a.mid=?" );
-          mysqli_stmt_bind_param($stmt2, "s", $pn);
+
+if(isset($_POST['get2']) && hash_equals($_SESSION['tan'],$_POST['tan']))
+  {  $pn= secure($_POST['pn']);
+     $stmt2= mysqli_prepare($conn, "SELECT Title, Nam, Email, Phone FROM books a,library_mitarbeiter b WHERE b.id=? AND a.mid=?" );
+          mysqli_stmt_bind_param($stmt2, "ss", $pn, $pn);
           mysqli_stmt_execute($stmt2);
           mysqli_stmt_bind_result($stmt2,$title,$nam,$mail,$phone);
 
         if( mysqli_stmt_fetch($stmt2) == true){
 
-              echo "<br> Book Name : " . htmlspecialchars($title). "<br> Mitarbeiter: ". htmlspecialchars($nam). 
-              "<br> Email: ". htmlspecialchars($mail)."<br> Phone: ". htmlspecialchars($phone). "<br>";
+ echo "<br> Book Name : " . htmlspecialchars($title). "<br> Mitarbeiter: ". htmlspecialchars($nam). 
+  "<br> Email: ". htmlspecialchars($mail)."<br> Phone: ". htmlspecialchars($phone). "<br>";
               
-              echo "<a href= 'delete1.php?pid=".urlencode($nam.$mail)."' class='btn btn-outline-danger' role='button' aria-pressed='true'>Delete</a>";
-        
-         }else{ echo"Nothing Found ";}
+echo "<a href= 'delete1.php?pid=".urlencode($title.$nam.$mail.$phone)."' class='btn btn-outline-danger' role='button' onclick= 'return confirm(\"really delete?\"); aria-pressed='true'>Delete</a>";
+//mysqli_stmt_close($stmt2);
+}else{ echo"Nothing Found ";}
+mysqli_stmt_close($stmt2);
+ }
 
-
-        // $_SESSION['tan']++;
-
-    }
     ?>
     </p>
     </form>
     
      
 <!-----------------------------Adding Form---------------------->
-</form >
+
         <h5 class="m-3">Add a new record</h5>
 
           <form action="" method="POST">
+          <input type="hidden" name="tan" value="<?php echo $_SESSION['tan']; ?>">
           <label>ID:</label>
             <input type="number" class=" form-control m-3" name="mitarbeiterid" >
             <label>Name:</label>
@@ -154,47 +153,45 @@ echo "<a href= 'edit.php?ppd=".urlencode($nam.$mail)."' class='btn btn-outline-s
             <div class="justify-content-end d-flex">
           <input type="submit" value="Submit" name= "mneu" class="btn btn-secondary  ">
            </div>
-           </form> 
-          
-         
-</main>
-
-          
-         
-
-        
+           
+     
  <?php
 //=================================================================================
 //=================(((((((((((((ADDING))))))))))))=================================
 //=================================================================================
        
-       if(isset($_POST['mneu']))
+       if(isset($_POST['mneu'])&& isset($_SESSION['tan']) && hash_equals($_SESSION['tan'],$_POST['tan']))
        {    
-            $id = $_POST['mitarbeiterid'];
-            $name = $_POST['mitarbeitername'];
-            $email = $_POST['mitarbeitermail'];
-            $mobile = $_POST['mitarbeiterfon'];
+            $id = secure($_POST['mitarbeiterid']);
+            $name = secure($_POST['mitarbeitername']);
+            $email = filter_var(secure($_POST['mitarbeitermail']), FILTER_VALIDATE_EMAIL);
+            $mobile = secure($_POST['mitarbeiterfon']);
+            $stmt3=mysqli_prepare($conn, "INSERT INTO library_mitarbeiter (id, Nam, Email , Phone)  VALUES(?,?,?,?)");
+            mysqli_stmt_bind_param($stmt3, "issi",$id,$name,$email,$mobile);
             $sql = "INSERT INTO library_mitarbeiter (id,Nam,Email,Phone)
             VALUES ('$id','$name','$email','$mobile')";
-            if (mysqli_query($conn, $sql)) {
+            if (mysqli_stmt_execute($stmt3)) {
                echo "<h5 class='m-5 text-success'>New record has been added successfully !</h5>";
             } else {
                echo "Error ";
             }
-            
+            mysqli_stmt_close($stmt3);
        }
        
        
-       session_unset();
+       
        mysqli_close($conn);
  
    
 
 ?>
-
+</form> 
+          
+         
+          </main>
 <script>
     if ( window.history.replaceState ) {
-  //      window.history.replaceState( null, null, window.location.href );
+      window.history.replaceState( null, null, window.location.href );
     }
 </script>
 
