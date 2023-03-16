@@ -56,6 +56,7 @@ if(isset($_POST['bttn'])){
               <a class="nav-link" href="page2.php">Calculate   </a>
               <a class="nav-link" href="table.php">Insert info</a>
               <a class="nav-link" href="get.php">Get info</a>
+              <a class="nav-link" href="get2.php">Get 2</a>
               <a class="nav-link" href="try-relation.php">Mitarbeiter</a>
             
               

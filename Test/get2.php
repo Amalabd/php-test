@@ -50,7 +50,7 @@ include_once("sql.php");
 
 
           <header class="page-header text-center m-5">
-                        <h2>Process</h2>
+                        <h2>Process -2- </h2>
         </header>
           <main  class="container col-lg-4 col-sm-8 mt-5 p-5 border border-secondary rounded-3 shadow" 
       style="background-color: rgba(255,255,255, 0.3);">
@@ -58,7 +58,9 @@ include_once("sql.php");
          
           <form action="" method="POST" class="p-3">
             <label  class="form-label">Process-no</label>
-            <input type="number" class="form-control" name="pn" placeholder="Please enter the Process number"> 
+            <input type="number" name="no" min="1" max="100" id="no" class="rounded-3">
+            <br>
+            <p id="res">Your selection was : </p>
             <br>
           <div class="justify-content-end d-flex">
           <input type="submit" value="GET" name= "get" class="btn btn-secondary fw-bold  ">
@@ -74,22 +76,9 @@ function secure($data){
 
 if(isset($_POST['get']))
   {  
-$pn= secure($_POST['pn']);  
-$stmt = mysqli_prepare($conn, "SELECT Fname FROM studenten WHERE Sd= ?");
-mysqli_stmt_bind_param($stmt, "s", $pn);
-mysqli_stmt_execute($stmt);
-mysqli_stmt_bind_result($stmt,$fnam);
-mysqli_stmt_fetch($stmt);
+$no= secure($_POST['no']);  
 
-  $error= " OOPS !! ... NO Data was found !!";
 
-  
-  if (empty($fnam)) {
-    echo '<script>alert(" '.htmlspecialchars($error).' ");</script>';
-  }else{
-      echo "<h5> The requested data is : </h5>"."<span class='text-success fs-4'> $fnam </span>";      
-    }
-  mysqli_stmt_close($stmt);
   
     }
 
@@ -99,9 +88,19 @@ mysqli_stmt_fetch($stmt);
 
 
 
+
   </form>
  </main>
 
  
+<script>
+var no= document.getElementById('no');
+var res = document.getElementById('res');
+no.addEventListener('input' , function(event){
+  var inputValue = event.target.value;
+  res.textContent = 'You selcet' + inputValue;
+})
+
+</script>
 </body>
 </html>
