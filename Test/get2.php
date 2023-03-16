@@ -60,7 +60,7 @@ include_once("sql.php");
             <label  class="form-label">Process-no</label>
             <input type="number" name="no" min="1" max="100" id="no" class="rounded-3">
             <br>
-            <p id="res">Your selection was : </p>
+            <p id="res"> </p>
             <br>
           <div class="justify-content-end d-flex">
           <input type="submit" value="GET" name= "get" class="btn btn-secondary fw-bold  ">
@@ -97,9 +97,12 @@ $no= secure($_POST['no']);
 var no= document.getElementById('no');
 var res = document.getElementById('res');
 no.addEventListener('input' , function(event){
+  if(no < 999){
   var inputValue = event.target.value;
-  res.textContent = 'You selcet' + inputValue;
+  res.textContent = 'Your selection was :' + inputValue;}
+  else{res.textContent = 'Your selection was : Invalid';}
 })
+
 
 </script>
 </body>
