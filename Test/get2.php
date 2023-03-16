@@ -73,10 +73,12 @@ function secure($data){
    $data= stripcslashes($data);
           return $data;
   }
+  
 
 if(isset($_POST['get']))
   {  
-$no= secure($_POST['no']);  
+$no= secure($_POST['no']); 
+$P= preg_match("\d\d\d", $no); 
 
 
   
@@ -97,7 +99,7 @@ $no= secure($_POST['no']);
 var no= document.getElementById('no');
 var res = document.getElementById('res');
 no.addEventListener('input' , function(event){
-  if(no.value < 999){
+  if(no.value = /^[1-9]\d{0,2}$/){
   var inputValue = event.target.value;
   res.textContent = 'Your selection was :' + inputValue;}
   else{res.textContent = 'Your selection was : Invalid';}
