@@ -97,7 +97,7 @@ $no= secure($_POST['no']);
 var no= document.getElementById('no');
 var res = document.getElementById('res');
 no.addEventListener('input' , function(event){
-  if(no < 999){
+  if(no.value < 999){
   var inputValue = event.target.value;
   res.textContent = 'Your selection was :' + inputValue;}
   else{res.textContent = 'Your selection was : Invalid';}
