@@ -1,4 +1,8 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors',1);
+ini_set('session.cookie_httponly', true);
+session_start();
 include_once("sql.php");
 ?>
 
@@ -14,7 +18,7 @@ include_once("sql.php");
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" 
     integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
-    <title>Get-Daten</title>
+    <title>Reg-Ex</title>
 </head>
 <body>
     
@@ -58,12 +62,12 @@ include_once("sql.php");
          
           <form action="" method="POST" class="p-3">
             <label  class="form-label">Process-no</label>
-            <input type="number" name="no" min="1" max="100" id="no" class="rounded-3">
+            <input type="number" name="no" id="no" class="rounded-3">
             <br>
             <p id="res"> </p>
             <br>
           <div class="justify-content-end d-flex">
-          <input type="submit" value="GET" name= "get" class="btn btn-secondary fw-bold  ">
+          <input type="submit" value="Submit" name= "get" class="btn btn-secondary fw-bold  ">
         </div>
         <p>
  <?php  
@@ -78,18 +82,16 @@ function secure($data){
 if(isset($_POST['get']))
   {  
 $no= secure($_POST['no']); 
-$P= preg_match("\d\d\d", $no); 
-
-
-  
-    }
+if( preg_match("^([1-9]|[1-9]\d{0,2}|[1-3]\d{0,3}|[1-4][0]\d[0-6])$", $no)){
+echo"Well Done!";
+}else{
+echo "Invalid";
+} 
+ }
 
 
  ?>
   </p>
-
-
-
 
   </form>
  </main>
@@ -99,7 +101,7 @@ $P= preg_match("\d\d\d", $no);
 var no= document.getElementById('no');
 var res = document.getElementById('res');
 no.addEventListener('input' , function(event){
-  if(no.value = /^[1-9]\d{0,2}$/){
+  if(/^([1-9]|[1-9]\d{0,2}|[1-3]\d{0,3}|[1-4][0]\d[0-6])$/.test(no.value)){
   var inputValue = event.target.value;
   res.textContent = 'Your selection was :' + inputValue;}
   else{res.textContent = 'Your selection was : Invalid';}
