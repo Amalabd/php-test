@@ -62,7 +62,7 @@ include_once("sql.php");
          
           <form action="" method="POST" class="p-3">
             <label  class="form-label">Process-no</label>
-            <input type="number" name="no" id="no" class="rounded-3">
+            <input type="text" name="no" id="no" class="rounded-3">
             <br>
             <p id="res"> </p>
             <br>
@@ -82,7 +82,7 @@ function secure($data){
 if(isset($_POST['get']))
   {  
 $no= secure($_POST['no']); 
-if( preg_match("/^([1-9]|[1-9]\d{0,2}|[1-3]\d{0,3}|[1-4][0]\d[0-6])$/", $no)){
+if( preg_match("/^([1-9]|[1-9]\d{0,2}|[1-3]\d{0,3}|[1-4][0]\d[0-6]|trunk)$/i", $no)){
 echo"Well Done!";
 }else{
 echo "Invalid";
@@ -101,7 +101,11 @@ echo "Invalid";
 var no= document.getElementById('no');
 var res = document.getElementById('res');
 no.addEventListener('input' , function(event){
-  if(/^([1-9]|[1-9]\d{0,2}|[1-3]\d{0,3}|[1-4][0]\d[0-6]|trunk)$/i.test(no.value)){
+ // if(/^([1-9]|[1-9]\d{0,2}|[1-3]\d{0,3}|[1-4][0]\d[0-6]|trunk)$/i.test(no.value))
+ var first= /^([1-9]|10)\/([1-9]|[0-4][0-8])$/.test(no.value);
+ var second =/^([1-9]|10)\/[0-1])$/.test(no.value);
+
+ if(first) {
   var inputValue = event.target.value;
   res.textContent = 'Your selection was :' + inputValue;}
   else{res.textContent = 'Your selection was : Invalid';}
