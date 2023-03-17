@@ -82,7 +82,7 @@ function secure($data){
 if(isset($_POST['get']))
   {  
 $no= secure($_POST['no']); 
-if( preg_match("^([1-9]|[1-9]\d{0,2}|[1-3]\d{0,3}|[1-4][0]\d[0-6])$", $no)){
+if( preg_match("/^([1-9]|[1-9]\d{0,2}|[1-3]\d{0,3}|[1-4][0]\d[0-6])$/", $no)){
 echo"Well Done!";
 }else{
 echo "Invalid";
@@ -101,7 +101,7 @@ echo "Invalid";
 var no= document.getElementById('no');
 var res = document.getElementById('res');
 no.addEventListener('input' , function(event){
-  if(/^([1-9]|[1-9]\d{0,2}|[1-3]\d{0,3}|[1-4][0]\d[0-6])$/.test(no.value)){
+  if(/^([1-9]|[1-9]\d{0,2}|[1-3]\d{0,3}|[1-4][0]\d[0-6]|trunk)$/i.test(no.value)){
   var inputValue = event.target.value;
   res.textContent = 'Your selection was :' + inputValue;}
   else{res.textContent = 'Your selection was : Invalid';}
