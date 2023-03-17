@@ -82,7 +82,10 @@ function secure($data){
 if(isset($_POST['get']))
   {  
 $no= secure($_POST['no']); 
-if( preg_match("/^([1-9]|[1-9]\d{0,2}|[1-3]\d{0,3}|[1-4][0]\d[0-6]|trunk)$/i", $no)){
+//if( preg_match("/^([1-9]|[1-9]\d{0,2}|[1-3]\d{0,3}|[1-4][0]\d[0-6]|trunk)$/i", $no))
+$first= preg_match("/^([1-9]|10)\/([1-9]|[0-4][0-8])$/", $no);
+$second =preg_match("/^([1-9]|10)\/([0-1])\/([1-9]|[0-4][0-8])$/", $no);
+ if($first || $second){
 echo"Well Done!";
 }else{
 echo "Invalid";
@@ -103,9 +106,9 @@ var res = document.getElementById('res');
 no.addEventListener('input' , function(event){
  // if(/^([1-9]|[1-9]\d{0,2}|[1-3]\d{0,3}|[1-4][0]\d[0-6]|trunk)$/i.test(no.value))
  var first= /^([1-9]|10)\/([1-9]|[0-4][0-8])$/.test(no.value);
- var second =/^([1-9]|10)\/[0-1]\/([1-9]|[0-4][0-8])$/.test(no.value);
+ var second =/^([1-9]|10)\/([0-1])\/([1-9]|[0-4][0-8])$/.test(no.value);
 
- if(first | second) {
+ if(first || second) {
   var inputValue = event.target.value;
   res.textContent = 'Your selection was :' + inputValue;}
   else{res.textContent = 'Your selection was : Invalid';}
