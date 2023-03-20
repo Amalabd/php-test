@@ -105,10 +105,12 @@ var no= document.getElementById('no');
 var res = document.getElementById('res');
 no.addEventListener('input' , function(event){
  // if(/^([1-9]|[1-9]\d{0,2}|[1-3]\d{0,3}|[1-4][0]\d[0-6]|trunk)$/i.test(no.value))
+ /*
  var first= /^([1-9]|10)\/([1-9]|[0-4][0-8])$/.test(no.value);
  var second =/^([1-9]|10)\/([0-1])\/([1-9]|[0-4][0-8])$/.test(no.value);
-
- if(first || second) {
+*/
+var first= /^(\d|10)\/([1-9]|[0-4][0-8])|([0-8])\/(\d|10)\/([1-9]|[0-4][0-8])$/.test(no.value);
+ if(first) {
   var inputValue = event.target.value;
   res.textContent = 'Your selection was :' + inputValue;}
   else{res.textContent = 'Your selection was : Invalid';}
