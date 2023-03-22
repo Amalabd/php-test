@@ -86,8 +86,9 @@ $no= secure($_POST['no']);
 /*
 $first= preg_match("/^([1-9]|10)\/([1-9]|[0-4][0-8])$/", $no);
 $second =preg_match("/^([1-9]|10)\/([0-1])\/([1-9]|[0-4][0-8])$/", $no);
+$first= preg_match("/^(\d|10)\/([1-9]|[0-4][0-8])$|^([0-8])\/(\d|10)\/([1-9]|[0-4][0-8])$/", $no);
 */
-$first= preg_match("/^(\d|10)\/([1-9]|[0-4][0-8])$/", $no)|preg_match("/^([0-8])\/(\d|10)\/([1-9]|[0-4][0-8])$/", $no);
+$first= preg_match("/^([0-8])?\/?(\d|10)\/([1-9]|[0-4][0-8])$/", $no);
  if($first){
 echo"Well Done!";
 }else{
@@ -111,8 +112,9 @@ no.addEventListener('input' , function(event){
  /*
  var first= /^([1-9]|10)\/([1-9]|[0-4][0-8])$/.test(no.value);
  var second =/^([1-9]|10)\/([0-1])\/([1-9]|[0-4][0-8])$/.test(no.value);
+ var first= /^(\d|10)\/([1-9]|[0-4][0-8])$|^([0-8])\/(\d|10)\/([1-9]|[0-4][0-8])$/.test(no.value);
 */
-var first= /^(\d|10)\/([1-9]|[0-4][0-8])$|^([0-8])\/(\d|10)\/([1-9]|[0-4][0-8])$/.test(no.value);
+var first= /^([0-8])?\/?(\d|10)\/([1-9]|[0-4][0-8])$/.test(no.value);
  if(first) {
   var inputValue = event.target.value;
   res.textContent = 'Your selection was :' + inputValue;}
